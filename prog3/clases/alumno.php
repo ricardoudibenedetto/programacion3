@@ -1,5 +1,5 @@
 <?PHP 
-include './clases/persona.php';
+include '../clases/persona.php';
 class Alumno extends persona{
    
     public $cuatrimestre;
