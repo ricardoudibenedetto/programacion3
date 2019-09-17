@@ -5,10 +5,11 @@ class Persona{
     public $apellido;
     public $legajo;
 
-   public function __construct($nomb, $apelli, $legaj){
+   public function __construct($nomb, $apelli, $legaj, $img){
         $this->nombre = $nomb;
         $this->apellido = $apelli;
         $this->legajo = $legaj;
+        $this->imagen = $img;
     }
 
     function saludar(){

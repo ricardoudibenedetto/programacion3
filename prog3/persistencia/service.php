@@ -11,15 +11,32 @@ class ServicioDao{
             echo "escribio\n";
         }
         fclose($archivo); */
-        $objetos = $this->leer($path);
-        array_push($objetos,$dato);
-        $json= json_encode($objetos);
-        var_dump($json);
-        $archivo = fopen($path,"w");
-        if(fwrite($archivo,$json)) {
-            echo "escribio\n";
+        if(is_array($dato)) {
+            echo "es array ";
+            $json = json_encode($dato);
+            $archivo = fopen($path,"w");
+            if(fwrite($archivo,$json)) {
+                echo "escribio\n";
+            }
+            fclose($archivo);
+            var_dump($json);
+        }else {
+            echo "no array ";
+            $objetos = $this->leer($path);
+            array_push($objetos,$dato);
+            $json = json_encode($objetos);
+            $archivo = fopen($path,"w");
+            
+            if(fwrite($archivo,$json)) {
+                echo "escribioooo\n";
+                if($dato->imagen != null) {
+                $this->guardarImg($dato);
+                }
+            }
+
+            fclose($archivo);
+            var_dump($json);
         }
-        fclose($archivo);
     }
 
     function leer($path) {
@@ -43,12 +60,28 @@ class ServicioDao{
        return $objetos;
     }
 
+    function guardarImg($dato) {
+        $archivoTemp = $_FILES["img"]["tmp_name"];
+        $index = count(explode("/",$_FILES["img"]["type"]))-1;
+        $ext =  explode(".",$_FILES["img"]["name"])[$index];
+        move_uploaded_file($archivoTemp, "./img/".$dato->legajo.".".$ext);
+    }
+    function modificarImg($imgName) {
+        
+
+    }
+
+    function nombreImgFormat($nombreImg) {
+        return $nombreImg.".".explode(".",$_FILES["img"]["name"])[count(explode("/",$_FILES["img"]["type"]))-1];
+    }
 
     function modificar($path, $dato) {
        $objetos = $this->leer($path);
         for($i=0; $i < count($objetos) ; $i++) { 
-           if($objetos[$i]->legajo == $dato->legajo)
-           {
+           if($objetos[$i]->legajo == $dato->legajo) {
+               if($_FILES["img"]["name"] != $dato->imagen ) {
+                   $this->guardarImg($dato);
+               }
                $objetos[$i] = $dato;
                $this->guardar($path, $objetos);
                break;

@@ -11,15 +11,17 @@
         break;
         } */
         
-        echo "entro";
-        if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['legajo']) )
+        
+        if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['legajo'])&& isset($_FILES["img"]))
         {
           /*   $archivo = fopen("./archivo.txt","a");
             if(fwrite($archivo,$_POST['nombre']."-".$_POST['apellido']."-".$_POST['legajo'].PHP_EOL)) {
                 echo "escribio";
             }
             fclose($archivo); */
-            $service->guardar("./archivo.txt",new Persona($_POST['nombre'],$_POST['apellido'],$_POST['legajo']));
+            $service->guardar("./archivo.txt",new Persona($_POST['nombre'],$_POST['apellido'],$_POST['legajo'],$service->nombreImgFormat($_POST['legajo'])));
+        }else if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['legajo'])) {
+            $service->guardar("./archivo.txt",new Persona($_POST['nombre'],$_POST['apellido'],$_POST['legajo'],null));
         }
     }
 
@@ -44,6 +46,7 @@
 
             $personas = $service->leer("./archivo.txt");
             echo json_encode($personas);
+            
     }
 
 
