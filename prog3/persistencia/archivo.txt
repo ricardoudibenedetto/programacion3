@@ -1,1 +1,1 @@
-[]
+[{"nombre":"pepe","apellido":"prueba","legajo":"1222","imagen":"1222.jpg"},{"nombre":"persona","apellido":"prueba","legajo":"1222","imagen":"1222.jpg"}]

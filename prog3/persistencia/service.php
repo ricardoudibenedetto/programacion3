@@ -66,9 +66,11 @@ class ServicioDao{
         $ext =  explode(".",$_FILES["img"]["name"])[$index];
         move_uploaded_file($archivoTemp, "./img/".$dato->legajo.".".$ext);
     }
-    function modificarImg($imgName) {
-        
-
+    function modificarImg($dato) {
+        if($dato->imagen != null) {
+            copy("./img/".$dato->imagen, "./BackUp/".$dato->imagen);
+            $this->guardarImg($dato);
+        }
     }
 
     function nombreImgFormat($nombreImg) {
@@ -79,8 +81,11 @@ class ServicioDao{
        $objetos = $this->leer($path);
         for($i=0; $i < count($objetos) ; $i++) { 
            if($objetos[$i]->legajo == $dato->legajo) {
-               if($_FILES["img"]["name"] != $dato->imagen ) {
-                   $this->guardarImg($dato);
+               if($dato->imagen != null) {
+                   //$this->guardarImg($dato);
+                   $this->modificarImg($objetos[$i]);
+               }else {
+                   $dato->imagen = $objetos[$i]->imagen;
                }
                $objetos[$i] = $dato;
                $this->guardar($path, $objetos);
