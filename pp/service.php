@@ -82,9 +82,13 @@
             {
                 foreach($materias as $mat) {
                     if($mat->codigo == $codigo  && $mat->nombre == $materia) {
-                        $this->guardar("./inscripciones.txt", $dato);
-                        $mat->cupo -= 1;
-                        echo "se guardo";
+                        if($mat->cupo > 0){
+                            $this->guardar("./inscripciones.txt", $dato);
+                            $mat->cupo -= 1;
+                            //$this->guardar("./materias.txt", $mat); hacer funcion para guardar materia q modifique su valor
+                        }else{
+                            echo "no hay cupo para la materia";
+                        }
                     }else{
     
                         echo $materia." ".$codigo;
