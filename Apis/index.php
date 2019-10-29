@@ -1,6 +1,7 @@
 <?php
+//carga todas las dependencias
 require 'vendor/autoload.php';
-include "./alumno.php";
+include "./alumnos.php";
 
 
 $alumnos;
